@@ -3,8 +3,16 @@ node_modules
 .pnp
 .pnp.js
 
-# misc
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 *.pem
 
 # debug
@@ -21,3 +29,7 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+dist
+dist-ssr
+*.local
