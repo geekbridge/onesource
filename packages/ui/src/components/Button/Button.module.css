@@ -1,0 +1,9 @@
+.button {
+  cursor: pointer;
+}
+
+.styled {
+  background-color: royalblue;
+  border: 1px solid aqua;
+  color: white;
+}
