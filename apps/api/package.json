@@ -3,8 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "author": "Sergey Gutskal",
-  "type": "module",
   "scripts": {
-    "dev": "node index.js"
+    "dev": "tsnd --env-file .env --respawn --transpile-only --exit-child src",
+    "introspectdb": "drizzle-kit introspect:pg",
+    "generatedb": "drizzle-kit generate:pg",
+    "pushdb": "drizzle-kit push:pg",
+    "migrate": "tsnd --env-file .env ./migrate"
+  },
+  "dependencies": {
+    "dotenv": "16.3.1",
+    "drizzle-orm": "0.29.1",
+    "fastify": "4.24.3",
+    "postgres": "3.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.8.8",
+    "drizzle-kit": "0.20.6",
+    "ts-node": "10.9.1",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.2.2"
   }
 }
