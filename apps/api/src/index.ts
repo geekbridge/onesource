@@ -23,3 +23,5 @@ async function main() {
 }
 
 main()
+
+export * from './modules/user/schema'

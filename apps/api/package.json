@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "author": "Sergey Gutskal",
+  "main": "src",
   "scripts": {
     "dev": "tsnd --env-file .env --respawn --transpile-only --exit-child src",
     "introspectdb": "drizzle-kit introspect:pg",
