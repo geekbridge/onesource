@@ -13,5 +13,5 @@ export async function findUsers() {
 }
 
 export async function findUserByTgId(tgId: number) {
-  return db.select().from(tgUsers).where(eq(tgUsers.tgId, tgId))
+  return db.select().from(tgUsers).where(eq(tgUsers.id, tgId))
 }

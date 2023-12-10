@@ -4,16 +4,18 @@
   "private": true,
   "author": "Sergey Gutskal",
   "scripts": {
-    "dev": "tsnd --inspect --env-file .env --respawn --transpile-only --exit-child src",
+    "dev": "tsnd --env-file .env --respawn --transpile-only --exit-child src",
     "introspectdb": "drizzle-kit introspect:pg",
     "generatedb": "drizzle-kit generate:pg",
     "pushdb": "drizzle-kit push:pg",
-    "migrate": "tsnd --env-file .env ./migrate"
+    "migrate": "tsnd --env-file .env ./migrate",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "dotenv": "16.3.1",
     "drizzle-orm": "0.29.1",
     "fastify": "4.24.3",
+    "pg": "8.11.3",
     "playwright": "1.40.1",
     "postgres": "3.4.2"
   },
