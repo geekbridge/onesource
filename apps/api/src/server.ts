@@ -1,6 +1,6 @@
 import fastify from 'fastify'
 
-import { userController } from './modules/user'
+import { tgUsersController } from './modules/tg-users'
 
 export function buildServer() {
   const server = fastify()
@@ -9,7 +9,7 @@ export function buildServer() {
     return { status: 'OK' }
   })
 
-  server.register(userController, { prefix: 'user' })
+  server.register(tgUsersController, { prefix: 'tg-users' })
 
   return server
 }
