@@ -4,7 +4,8 @@
   "private": true,
   "author": "Sergey Gutskal",
   "scripts": {
-    "dev": "tsnd --inspect --env-file .env --respawn --transpile-only --exit-child src"
+    "dev": "tsnd --inspect --env-file .env --respawn --transpile-only --exit-child src",
+    "update-bot": "tsnd --env-file .env ./src/bot-configs/update"
   },
   "dependencies": {
     "axios": "1.6.2",

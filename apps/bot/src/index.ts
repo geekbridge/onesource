@@ -1,16 +1,12 @@
 import { Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { createTgUser, getTgUserById } from './api'
+import { checkEnvs } from './utils'
 
-if (!process.env.BOT_TOKEN) {
-  throw new Error('process.env.BOT_TOKEN is missing')
-}
+checkEnvs()
 
-if (!process.env.API_URL) {
-  throw new Error('process.env.API_URL is missing')
-}
+const bot = new Telegraf(process.env.BOT_TOKEN!)
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
 bot.start(async (ctx) => {
   try {
     const {
