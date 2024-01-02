@@ -1,9 +1,9 @@
-const playwright = require('playwright')
+import playwright from 'playwright'
 
 type TVideoData = {
-  videoId: string
-  title: string
-  imageUrl: string
+  videoId?: string | null
+  title?: string | null
+  imageUrl?: string | null
 }
 
 export const parseVKChannel = async (channelUrl: string) => {
@@ -16,7 +16,8 @@ export const parseVKChannel = async (channelUrl: string) => {
   await page.goto(channelUrl)
 
   await page.evaluate(async () => {
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms))
     for (let i = 0; i < document.body.scrollHeight; i += 100) {
       window.scrollTo(0, i)
       await delay(10)
@@ -25,17 +26,17 @@ export const parseVKChannel = async (channelUrl: string) => {
 
   // TODO make universal function for channels and playlists
   const videosContainer = await page.$('.video_subtab_pane_all')
-  const videos = await videosContainer.$$eval('.VideoCard', (allVideos) => {
+  const videos = await videosContainer?.$$eval('.VideoCard', (allVideos) => {
     const data: TVideoData[] = []
 
     allVideos.forEach((video) => {
       const videoId = video
-        .querySelector('.VideoCard__thumbLink')
-        .getAttribute('data-id')
-      const title = video.querySelector('.VideoCard__title').innerText
+        ?.querySelector('.VideoCard__thumbLink')
+        ?.getAttribute('data-id')
+      const title = video.querySelector('.VideoCard__title')?.innerHTML
       const imageUrl = video
-        .querySelector('.VideoCard__thumb > img')
-        .getAttribute('src')
+        ?.querySelector('.VideoCard__thumb > img')
+        ?.getAttribute('src')
 
       data.push({ videoId, title, imageUrl })
     })
@@ -45,5 +46,5 @@ export const parseVKChannel = async (channelUrl: string) => {
 
   await browser.close()
 
-  return videos
+  return videos || []
 }

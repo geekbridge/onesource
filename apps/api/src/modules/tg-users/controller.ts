@@ -1,9 +1,10 @@
 import { FastifyInstance } from 'fastify'
-import { TgUserT, NewTgUserT } from './schema'
-import { createTgUser, findTgUserById, findTgUsers } from './service'
+
+import { createTgUser, findTgUserById, getAllTgUsers } from './service'
+import { TgUserT, InsertTgUserT } from '../../db'
 
 export async function tgUsersController(server: FastifyInstance) {
-  server.post<{ Body: NewTgUserT; Reply: TgUserT[] }>(
+  server.post<{ Body: InsertTgUserT; Reply: TgUserT }>(
     '/',
     async (req, reply) => {
       const tgUser = await createTgUser(req.body)
@@ -13,14 +14,13 @@ export async function tgUsersController(server: FastifyInstance) {
   )
 
   server.get('/', async (req, reply) => {
-    const tgUsers = await findTgUsers()
+    const tgUsers = await getAllTgUsers()
     reply.status(201).send(tgUsers)
   })
 
-  server.get('/:tgUserId', async (req, reply) => {
-    // TODO fix typing
-    const { tgUserId } = req.params
-    const tgUser = await findTgUserById(tgUserId)
+  server.get<{ Params: Pick<TgUserT, 'id'> }>('/:id', async (req, reply) => {
+    const { id } = req.params
+    const tgUser = await findTgUserById(id)
 
     reply.status(201).send(tgUser)
   })
