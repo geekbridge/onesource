@@ -1,6 +1,6 @@
 import { Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { createTgUser, getTgUserById } from './api'
+import { createTgUser, createUser, getTgUserById } from './api'
 import { checkEnvs } from './utils'
 
 checkEnvs()
@@ -21,18 +21,21 @@ bot.start(async (ctx) => {
     const existedUser = await getTgUserById(id)
 
     if (existedUser) {
-      ctx.reply(`Welcome back ${existedUser.firstName}`)
+      ctx.reply(`Welcome back ${existedUser.username}`)
       return
     }
 
-    const newUser = await createTgUser({
+    await createTgUser({
       id,
       username,
-      firstName,
-      lastName,
       isBot,
       isPremium,
+    })
+    const newUser = await createUser({
+      firstName,
+      lastName,
       languageCode,
+      tgId: id,
     })
 
     ctx.reply(`Welcome ${newUser.firstName}`)
