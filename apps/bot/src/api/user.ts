@@ -1,7 +1,7 @@
-import { NewTgUserT, TgUserT } from 'api'
+import { InsertTgUserT, TgUserT } from 'api/src/db/schema'
 import { api } from './api'
 
-export async function createTgUser(newTgUserData: NewTgUserT) {
+export async function createTgUser(newTgUserData: InsertTgUserT) {
   return (await api.post<TgUserT>(`/tg-users`, newTgUserData)).data
 }
 

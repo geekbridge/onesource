@@ -20,7 +20,7 @@ export const posts = pgTable('posts', {
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
@@ -37,13 +37,13 @@ export type InsertPostsT = typeof posts.$inferInsert // insert type
 
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
-  key: varchar('name', { length: 256 }).notNull(),
+  key: varchar('key', { length: 256 }).unique().notNull(),
   hosts: varchar('hosts', { length: 256 }).notNull(),
   imageUrl: varchar('imageUrl', { length: 2048 }),
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
@@ -67,7 +67,7 @@ export const sources = pgTable('sources', {
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
@@ -95,7 +95,7 @@ export const subscriptions = pgTable('subscriptions', {
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
@@ -122,13 +122,13 @@ export const tgUsers = pgTable('tgUsers', {
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
 
 export const tgUsersRelations = relations(tgUsers, ({ one }) => ({
-  invitee: one(users, {
+  user: one(users, {
     fields: [tgUsers.id],
     references: [users.tgId],
   }),
@@ -146,7 +146,7 @@ export const users = pgTable('users', {
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })

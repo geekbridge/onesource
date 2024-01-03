@@ -24,7 +24,7 @@ export async function findUserById(id: UserT['id']) {
 export async function updatedUserById(id: UserT['id'], newData: InsertUserT) {
   const updatedUser = await db
     .update(users)
-    .set(newData)
+    .set({ ...newData, updatedAt: new Date() })
     .where(eq(users.id, id))
     .returning()
 
