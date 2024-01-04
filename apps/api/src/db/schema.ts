@@ -115,7 +115,7 @@ export type SubscriptionsT = typeof subscriptions.$inferSelect // return type wh
 export type InsertSubscriptionsT = typeof subscriptions.$inferInsert // insert type
 
 export const tgUsers = pgTable('tgUsers', {
-  id: integer('id').primaryKey().unique(),
+  tgId: integer('tgId').primaryKey().unique(),
   username: varchar('username', { length: 256 }),
   isBot: boolean('isBot'),
   isPremium: boolean('isPremium'),
@@ -129,7 +129,7 @@ export const tgUsers = pgTable('tgUsers', {
 
 export const tgUsersRelations = relations(tgUsers, ({ one }) => ({
   user: one(users, {
-    fields: [tgUsers.id],
+    fields: [tgUsers.tgId],
     references: [users.tgId],
   }),
 }))
@@ -142,7 +142,7 @@ export const users = pgTable('users', {
   firstName: varchar('firstName', { length: 256 }),
   lastName: varchar('lastName', { length: 256 }),
   languageCode: varchar('languageCode', { length: 2 }),
-  tgId: integer('tgId').references(() => tgUsers.id),
+  tgId: integer('tgId').references(() => tgUsers.tgId),
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
