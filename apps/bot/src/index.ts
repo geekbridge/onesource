@@ -1,6 +1,6 @@
 import { Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { createTgUser, createUser, getTgUserById } from './api'
+import { createTgUser, getTgUserById } from './api'
 import { checkEnvs } from './utils'
 
 checkEnvs()
@@ -10,7 +10,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN!)
 bot.start(async (ctx) => {
   try {
     const {
-      id,
+      id: tgId,
       username,
       first_name: firstName,
       last_name: lastName,
@@ -18,27 +18,24 @@ bot.start(async (ctx) => {
       is_premium: isPremium,
       language_code: languageCode,
     } = ctx.from
-    const existedUser = await getTgUserById(id)
+    const existedUser = await getTgUserById(tgId)
 
     if (existedUser) {
       ctx.reply(`Welcome back ${existedUser.username}`)
       return
     }
 
-    await createTgUser({
-      id,
+    const newTgUser = await createTgUser({
+      tgId,
       username,
       isBot,
       isPremium,
-    })
-    const newUser = await createUser({
       firstName,
       lastName,
       languageCode,
-      tgId: id,
     })
 
-    ctx.reply(`Welcome ${newUser.firstName}`)
+    ctx.reply(`Welcome ${newTgUser.username}`)
   } catch (error) {
     console.error(error)
   }
