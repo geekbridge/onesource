@@ -63,7 +63,9 @@ export const sources = pgTable('sources', {
   url: varchar('url', { length: 2048 }).notNull(),
   imageUrl: varchar('imageUrl', { length: 2048 }),
   type: varchar('type', { length: 64 }),
-  serviceId: integer('serviceId').references(() => services.id),
+  serviceId: integer('serviceId')
+    .references(() => services.id)
+    .notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -86,16 +88,13 @@ export type InsertSourcesT = typeof sources.$inferInsert // insert type
 
 export const subscriptions = pgTable('subscriptions', {
   id: serial('id').primaryKey(),
-  userId: integer('userId')
+  userId: uuid('userId')
     .references(() => users.id)
     .notNull(),
   sourceId: integer('sourceId')
     .references(() => sources.id)
     .notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  updatedAt: timestamp('updatedAt', { withTimezone: true })
     .defaultNow()
     .notNull(),
 })
