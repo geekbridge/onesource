@@ -2,6 +2,7 @@ import { Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { createTgUser, getTgUserById } from './api'
 import { checkEnvs } from './utils'
+import { subscribe } from './api/subscriptions'
 
 checkEnvs()
 
@@ -40,11 +41,24 @@ bot.start(async (ctx) => {
     console.error(error)
   }
 })
+
+bot.on(message('text'), async (ctx) => {
+  try {
+    await subscribe({
+      url: ctx.message.text,
+      tgUserId: ctx.from.id,
+    })
+
+    ctx.reply('Subscription created')
+  } catch (error) {
+    ctx.reply('Something went wrong :(')
+  }
+})
+
 bot.help((ctx) => ctx.reply('Send me a sticker'))
 bot.on(message('sticker'), (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 bot.command('info', (ctx) => ctx.reply('Some info'))
-bot.on(message('text'), (ctx) => ctx.reply('Hello'))
 bot.launch()
 
 // Enable graceful stop
